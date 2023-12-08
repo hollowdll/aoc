@@ -8,8 +8,9 @@ import (
 	"unicode"
 )
 
-func readInput() {
+func part1() {
 	var sum int
+
 	file, err := os.Open("input.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
@@ -17,7 +18,6 @@ func readInput() {
 	}
 	defer file.Close() // Close the file when the function returns
 
-	// Create a scanner to read the file line by line
 	scanner := bufio.NewScanner(file)
 
 	// Iterate over each line in the file
@@ -25,24 +25,15 @@ func readInput() {
 		line := scanner.Text()
 		firstDigit := getFirstDigit(line)
 		lastDigit := getLastDigit(line)
-
-		if firstDigit != -1 && lastDigit != -1 {
-			combined := fmt.Sprintf("%d%d", firstDigit, lastDigit)
-			num, _ := strconv.Atoi(combined)
-			sum += num
-		} else if lastDigit == -1 {
-			combined := fmt.Sprintf("%d%d", firstDigit, firstDigit)
-			num, _ := strconv.Atoi(combined)
-			sum += num
-		}
+		num, _ := strconv.Atoi(fmt.Sprintf("%d%d", firstDigit, lastDigit))
+		sum += num
 	}
 
-	fmt.Println("Sum:", sum)
-
-	// Check for scanner errors
 	if err := scanner.Err(); err != nil {
 		fmt.Println("Error reading file:", err)
 	}
+
+	fmt.Println("Sum:", sum)
 }
 
 func getFirstDigit(s string) int {
@@ -51,22 +42,18 @@ func getFirstDigit(s string) int {
 			return int(char - '0')
 		}
 	}
-	return -1 // No digit found
+	return 0 // No digit found
 }
 
 func getLastDigit(s string) int {
-	var lastDigit rune
-	for _, char := range s {
-		if unicode.IsDigit(char) {
-			lastDigit = char
+	for i := len(s) - 1; i >= 0; i-- {
+		if unicode.IsDigit(rune(s[i])) {
+			return int(s[i] - '0')
 		}
 	}
-	if lastDigit != 0 {
-		return int(lastDigit - '0')
-	}
-	return -1 // No digit found
+	return 0 // No digit found
 }
 
 func main() {
-	readInput()
+	part1()
 }

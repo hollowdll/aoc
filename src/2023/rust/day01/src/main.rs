@@ -17,8 +17,8 @@ fn part1() {
     if let Ok(lines) = read_lines("./input/input.txt") {
         for line in lines {
             if let Ok(line) = line {
-                let mut first_digit = -1;
-                let mut last_digit = -1;
+                let mut first_digit = 0;
+                let mut last_digit = 0;
 
                 for c in line.chars() {
                     if c.is_digit(10) {
