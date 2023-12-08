@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"unicode"
 )
 
@@ -33,7 +34,57 @@ func part1() {
 		fmt.Println("Error reading file:", err)
 	}
 
-	fmt.Println("Sum:", sum)
+	fmt.Println("Part 1 answer:", sum)
+}
+
+func part2() {
+	letterDigits := []string{
+		"one",
+		"two",
+		"three",
+		"four",
+		"five",
+		"six",
+		"seven",
+		"eight",
+		"nine",
+	}
+	var sum int
+
+	file, err := os.Open("input.txt")
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return
+	}
+	defer file.Close() // Close the file when the function returns
+
+	scanner := bufio.NewScanner(file)
+
+	// Iterate over each line in the file
+	for scanner.Scan() {
+		line := scanner.Text()
+		var digits []int
+
+		for i, char := range line {
+			if unicode.IsDigit(char) {
+				digits = append(digits, int(char-'0'))
+			}
+			for j, val := range letterDigits {
+				if strings.HasPrefix(line[i:], val) {
+					digits = append(digits, j+1)
+				}
+			}
+		}
+
+		num, _ := strconv.Atoi(fmt.Sprintf("%d%d", digits[0], digits[len(digits)-1]))
+		sum += num
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
+	fmt.Println("Part 2 answer:", sum)
 }
 
 func getFirstDigit(s string) int {
@@ -56,4 +107,5 @@ func getLastDigit(s string) int {
 
 func main() {
 	part1()
+	part2()
 }
