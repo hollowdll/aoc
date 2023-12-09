@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func part1() {
+func main() {
 	var part1Sum int
 	var part2Sum int
 	gameNumber := 0
@@ -58,8 +58,4 @@ func part1() {
 
 	fmt.Println("Part 1 answer:", part1Sum)
 	fmt.Println("Part 2 answer:", part2Sum)
-}
-
-func main() {
-	part1()
 }
