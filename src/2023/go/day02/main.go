@@ -9,7 +9,8 @@ import (
 )
 
 func part1() {
-	var sum int
+	var part1Sum int
+	var part2Sum int
 	gameNumber := 0
 	maxCubes := map[string]int{
 		"red":   12,
@@ -26,6 +27,11 @@ func part1() {
 		gameNumber += 1
 		line := scanner.Text()
 		possible := true
+		fewestCubes := map[string]int{
+			"red":   0,
+			"green": 0,
+			"blue":  0,
+		}
 
 		subsets := strings.Split(strings.Split(line, ":")[1], ";")
 		for _, subset := range subsets {
@@ -36,17 +42,22 @@ func part1() {
 				color := val[1]
 				if count > maxCubes[color] {
 					possible = false
-					break
+				}
+				if count > fewestCubes[color] {
+					fewestCubes[color] = count
 				}
 			}
 		}
 
 		if possible {
-			sum += gameNumber
+			part1Sum += gameNumber
 		}
+
+		part2Sum += fewestCubes["red"] * fewestCubes["green"] * fewestCubes["blue"]
 	}
 
-	fmt.Println("Part 1 answer:", sum)
+	fmt.Println("Part 1 answer:", part1Sum)
+	fmt.Println("Part 2 answer:", part2Sum)
 }
 
 func main() {
